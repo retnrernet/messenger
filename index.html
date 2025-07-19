@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Local Chat App</title>
+    <title>Chat App</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,74 +11,58 @@
             margin: 0;
             padding: 20px;
         }
-        #chat-container {
-            width: 100%;
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        #messages {
-            height: 400px;
-            overflow-y: scroll;
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
-        }
-        #message-input {
-            display: flex;
-            padding: 10px;
-        }
-        #message-input input {
-            flex: 1;
-            padding: 10px;
+        #chat {
             border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        #message-input button {
             padding: 10px;
-            border: none;
-            background: #28a745;
-            color: white;
-            border-radius: 5px;
-            margin-left: 10px;
-            cursor: pointer;
+            height: 300px;
+            overflow-y: scroll;
+            background: white;
+        }
+        #message {
+            width: 80%;
+            padding: 10px;
+        }
+        #send {
+            padding: 10px;
         }
     </style>
 </head>
 <body>
 
-<div id="chat-container">
-    <div id="messages"></div>
-    <div id="message-input">
-        <input type="text" id="message" placeholder="Type your message here...">
-        <button id="send">Send</button>
-    </div>
-</div>
+    <h1>Chat Application</h1>
+    <div id="chat"></div>
+    <input type="text" id="message" placeholder="Type your message here...">
+    <button id="send">Send</button>
 
-<script>
-    const messagesContainer = document.getElementById('messages');
-    const messageInput = document.getElementById('message');
-    const sendButton = document.getElementById('send');
+    <script>
+        const chat = document.getElementById('chat');
+        const messageInput = document.getElementById('message');
+        const sendButton = document.getElementById('send');
 
-    sendButton.addEventListener('click', () => {
-        const messageText = messageInput.value;
-        if (messageText) {
+        sendButton.addEventListener('click', () => {
+            const message = messageInput.value;
+            if (message) {
+                saveMessage(message);
+                messageInput.value = '';
+                displayMessage(message);
+            }
+        });
+
+        function displayMessage(message) {
             const messageElement = document.createElement('div');
-            messageElement.textContent = messageText;
-            messagesContainer.appendChild(messageElement);
-            messageInput.value = '';
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            messageElement.textContent = message;
+            chat.appendChild(messageElement);
+            chat.scrollTop = chat.scrollHeight;
         }
-    });
 
-    messageInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-            sendButton.click();
+        function saveMessage(message) {
+            const blob = new Blob([message + '\n'], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'messages.txt';
+            link.click();
         }
-    });
-</script>
+    </script>
 
 </body>
 </html>
