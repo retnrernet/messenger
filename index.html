@@ -4,14 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat App</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        #chat {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 300px;
+            overflow-y: scroll;
+            background: white;
+        }
+        #message {
+            width: 80%;
+            padding: 10px;
+        }
+        #send {
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div id="chat-container">
-        <div id="messages"></div>
-        <input type="text" id="message-input" placeholder="Type your message...">
-        <button id="send-button">Send</button>
-    </div>
-    <script src="script.js"></script>
+
+    <h1>Chat Application</h1>
+    <div id="chat"></div>
+    <input type="text" id="message" placeholder="Type your message here...">
+    <button id="send">Send</button>
+
+    <script>
+        const chat = document.getElementById('chat');
+        const messageInput = document.getElementById('message');
+        const sendButton = document.getElementById('send');
+
+        function loadMessages() {
+            fetch('messages.txt')
+                .then(response => response.text())
+                .then(data => {
+                    chat.innerHTML = data.replace(/\n/g, '<br>');
+                });
+        }
+
+        sendButton.addEventListener('click', () => {
+            const message = messageInput.value;
+            if (message) {
+                chat.innerHTML += message + '<br>';
+                messageInput.value = '';
+                // Here you would typically send the message to the server
+            }
+        });
+
+        loadMessages();
+    </script>
+
 </body>
 </html>
