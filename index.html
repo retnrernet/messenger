@@ -22,56 +22,93 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Padauk&display=swap');
+# Local Chat App
 
-:root {
-    --primary-color: #dcdc99;
-    --secondary-color: #EAEAB4;
-    --main-font: 'Montserrat', sans-serif;
-    --text-color: black;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Chat App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        #chat-container {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        #messages {
+            height: 400px;
+            overflow-y: scroll;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        #message-input {
+            display: flex;
+            padding: 10px;
+        }
+        #message-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #message-input button {
+            padding: 10px;
+            border: none;
+            background: #28a745;
+            color: white;
+            border-radius: 5px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
 
-[data-theme="dark"] {
-    --primary-color: #121212;
-    --secondary-color: #2B2B2B;
-    --main-font: 'Montserrat', sans-serif;
-    --text-color: white;
-} 
+<div id="chat-container">
+    <div id="messages"></div>
+    <div id="message-input">
+        <input type="text" id="message" placeholder="Type your message here...">
+        <button id="send">Send</button>
+    </div>
+</div>
 
-body{
-    background-color: var(--secondary-color);
-}
-
-.container{
-    display: flex;
-    flex-direction: column;
-    width: 400px;
-    margin: 0 auto;
-    background-color: var(--primary-color);
-    padding: 10px;
-</style>
 <script>
-    //Create an array where the message along with it's ID will be stored.
-let message = [];
+    const messagesContainer = document.getElementById('messages');
+    const messageInput = document.getElementById('message');
+    const sendButton = document.getElementById('send');
 
-// This fuction will enables us to add the message to the DOM
-function addMessage(text){
-    //Object where message will be stored
-    const chat = {
-        text,
-        id: Date.now()
-    }
+    sendButton.addEventListener('click', () => {
+        const messageText = messageInput.value;
+        if (messageText) {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = messageText;
+            messagesContainer.appendChild(messageElement);
+            messageInput.value = '';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+    });
 
-    message.push(chat);
-    
-    //Render message to the screen
-    const list = document.querySelector('.messages');
-    list.insertAdjacentHTML('beforeend', 
-        `<p class="message-item" data-key="${chat.id}">
-            <span>${chat.text}</span>
-        </p>`
+    messageInput.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            sendButton.click();
+        }
+    });
+</script>
 
-    );
-    
-    // Delete the message from the screen after 2 seconds
+</body>
+</html>
+
+en after 2 seconds
     let token = setTimeout(() => {
 </script>
