@@ -46,7 +46,13 @@
                     chat.innerHTML = data.replace(/\n/g, '<br>');
                 });
         }
-
+        function saveMessageToFile(message) {
+            const blob = new Blob([message + '\n'], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'messages.txt';
+            link.click();
+        }
         sendButton.addEventListener('click', () => {
             const message = messageInput.value;
             if (message) {
