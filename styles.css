@@ -4,16 +4,16 @@ body {
     background-color: #f4f4f4;
 }
 
-#chat-container {
+.chat-container {
     width: 300px;
-    margin: 0 auto;
-    padding: 10px;
+    margin: 50px auto;
+    padding: 20px;
     background: white;
-    border: 1px solid #ccc;
     border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#messages {
+.messages {
     height: 200px;
     overflow-y: scroll;
     border: 1px solid #ccc;
@@ -21,11 +21,11 @@ body {
     padding: 5px;
 }
 
-#message-input {
-    width: 70%;
+input[type="text"] {
+    width: calc(100% - 60px);
     padding: 10px;
 }
 
-#send-button {
-    padding: 10px ;
+button {
+    padding: 10px;
 }
