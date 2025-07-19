@@ -1,55 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <title>WebSocket Chat</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <script src="https://pyscript.net/latest/pyscript.js"></script>
 </head>
 <body>
-  <div class="chat-container">
-    <div class="messages-container" id="messages"></div>
-    <div class="message-input-container">
-      <input type="text" id="messageInput" placeholder="Type a message...">
-      <button id="sendButton">Send</button>
-    </div>
-  </div>
+    <h1>Chat Application</h1>
+    <div id="chat-box" style="border: 1px solid #ccc; height: 300px; overflow-y: scroll;"></div>
+    <input type="text" id="message" placeholder="Type your message here...">
+    <button id="send">Send</button>
 
-  <script>
-    const messagesDiv = document.getElementById('messages');
-    const messageInput = document.getElementById('messageInput');
-    const sendButton = document.getElementById('sendButton');
-    const ws = new WebSocket('ws://localhost:3000');
-  
-    ws.addEventListener('message', (event) => {
-      const message = event.data;
-      displayMessage(message);
-    });
-  
-    sendButton.addEventListener('click', () => {
-      const message = messageInput.value;
-      ws.send(message);
-      displayMessage(message, true);
-      messageInput.value = '';
-    });
-  
-    function displayMessage(message, isSender = false) {
-      const messageContainer = document.createElement('div');
-      const messageElement = document.createElement('div');
-      messageElement.textContent = message;
-      
-      messageContainer.classList.add('message-container');
-      
-      if (isSender) {
-        messageContainer.classList.add('sender-message-container');
-        messageElement.classList.add('message-bubble', 'sender-message-bubble');
-      } else {
-        messageElement.classList.add('message-bubble');
-      }
-      
-      messageContainer.appendChild(messageElement);
-      messagesDiv.appendChild(messageContainer);
-      
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
-  </script>
+    <py-script>
+        from js import document
+
+        messages = []
+
+        def send_message(event):
+            message_input = document.getElementById("message")
+            message = message_input.value
+            if message:
+                messages.append(message)
+                message_input.value = ""
+                update_chat_box()
+
+        def update_chat_box():
+            chat_box = document.getElementById("chat-box")
+            chat_box.innerHTML = "<br>".join(messages)
+
+        document.getElementById("send").bind("click", send_message)
+    </py-script>
 </body>
 </html>
