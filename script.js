@@ -1,43 +1,33 @@
 // script.js
-const sendButton = document.getElementById('send-button');
-const messageInput = document.getElementById('message-input');
-const messagesDiv = document.getElementById('messages');
-
-sendButton.addEventListener('click', () => {
+document.getElementById('sendButton').addEventListener('click', function() {
+    const messageInput = document.getElementById('messageInput');
     const message = messageInput.value;
     if (message) {
-        saveMessageToDatabase(message);
-        messageInput.value = '';
+        fetch('save_message.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message: message })
+        }).then(() => {
+            messageInput.value = '';
+            loadMessages();
+        });
     }
 });
 
-function saveMessageToDatabase(message) {
-    fetch('/save-message', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            loadMessages();
-        }
-    });
-}
-
 function loadMessages() {
-    fetch('/get-messages')
-    .then(response => response.json())
-    .then(data => {
-        messagesDiv.innerHTML = '';
-        data.messages.forEach(msg => {
-            const messageElement = document.createElement('div');
-            messageElement.textContent = msg;
-            messagesDiv.appendChild(messageElement);
+    fetch('load_messages.php')
+        .then(response => response.json())
+        .then(data => {
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML = '';
+            data.forEach(msg => {
+                const messageElement = document.createElement('div');
+                messageElement.textContent = msg.message;
+                messagesDiv.appendChild(messageElement);
+            });
         });
-    });
 }
 
-loadMessages();
+window.onload = loadMessages;
