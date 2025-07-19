@@ -46,23 +46,25 @@
                     chat.innerHTML = data.replace(/\n/g, '<br>');
                 });
         }
-        function saveMessageToFile(message) {
+
+        function saveMessage(message) {
             const blob = new Blob([message + '\n'], { type: 'text/plain' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
             link.download = 'messages.txt';
             link.click();
         }
+
         sendButton.addEventListener('click', () => {
             const message = messageInput.value;
             if (message) {
                 chat.innerHTML += message + '<br>';
+                saveMessage(message);
                 messageInput.value = '';
-                // Here you would typically send the message to the server
             }
         });
 
-        loadMessages();
+        window.onload = loadMessages;
     </script>
 
 </body>
