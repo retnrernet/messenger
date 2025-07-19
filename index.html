@@ -16,38 +16,24 @@
             padding: 10px;
             height: 300px;
             overflow-y: scroll;
-            background: white;
-        }
-        #message {
-            width: 80%;
-            padding: 10px;
-        }
-        #send {
-            padding: 10px;
-        }
-    </style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    <h1>Chat Application</h1>
-    <div id="chat"></div>
-    <input type="text" id="message" placeholder="Type your message here...">
-    <button id="send">Send</button>
-
-    <script>
-        const chat = document.getElementById('chat');
-        const messageInput = document.getElementById('message');
-        const sendButton = document.getElementById('send');
-
-        function loadMessages() {
-            fetch('messages.txt')
-                .then(response => response.text())
-                .then(data => {
-                    chat.innerHTML = data.replace(/\n/g, '<br>');
-                });
-        }
-
-        function saveMessage(message) {
+    <div class="chat-container">
+        <div id="messages" class="messages"></div>
+        <input type="text" id="messageInput" placeholder="Type your message...">
+        <button id="sendButton">Send</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+e) {
             const blob = new Blob([message + '\n'], { type: 'text/plain' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
